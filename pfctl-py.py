@@ -1,6 +1,9 @@
 import subprocess
 import sys
-
+def usage():
+    print("Usage: python %s \"<anchor_name>\" \"<anchor_rule>\"" % program)
+    print("or")
+    print("Usage: python %s \"<anchor_rule>\"" % program)
 def append_rule(anchor=None, rule= None):
     command = "pfctl -a " + anchor + " -sn"
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -11,8 +14,6 @@ def append_rule(anchor=None, rule= None):
     new_command = "pfctl -a " + anchor + " -Eef -"
     process = subprocess.Popen(new_command, stdin=subprocess.PIPE, shell=True)
     process.communicate(input=combined_rules.encode('utf-8'))
-
-
 def just_append_rule(rule= None):
     command = "pfctl " + "-sn"
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -23,7 +24,6 @@ def just_append_rule(rule= None):
     new_command = "pfctl " + "-Eef -"
     process = subprocess.Popen(new_command, stdin=subprocess.PIPE, shell=True)
     process.communicate(input=combined_rules.encode('utf-8'))
-
 args = sys.argv[1:]
 program = sys.argv[0]
 if len(args) == 1:
@@ -38,10 +38,11 @@ elif len(args) == 2:
     if not rule.endswith('\n'):
         rule += '\n'
     append_rule(anchor=anchor, rule=rule)
+elif len(args) > 2:
+    usage()
+    sys.exit()
 else:
-    print("Usage: python %s \"<anchor_name>\" \"<anchor_rule>\"" % program)
-    print("or")
-    print("Usage: python %s \"<anchor_rule>\"" % program)
+    usage()
     sys.exit()
 
 
