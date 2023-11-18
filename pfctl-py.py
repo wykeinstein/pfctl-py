@@ -25,6 +25,7 @@ def just_append_rule(rule= None):
     process.communicate(input=combined_rules.encode('utf-8'))
 
 args = sys.argv[1:]
+program = sys.argv[0]
 if len(args) == 1:
     print (len(args))
     rule = args[0]
@@ -38,8 +39,9 @@ elif len(args) == 2:
         rule += '\n'
     append_rule(anchor=anchor, rule=rule)
 else:
-    print("Usage: python %s <anchor_name> <anchor_rule>")
-    print("Usage: python %s \"<anchor_rule>\"")
+    print("Usage: python %s \"<anchor_name>\" \"<anchor_rule>\"" % program)
+    print("or")
+    print("Usage: python %s \"<anchor_rule>\"" % program)
     sys.exit()
 
 
