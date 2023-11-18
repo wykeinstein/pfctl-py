@@ -34,6 +34,8 @@ if len(args) == 1:
 elif len(args) == 2:
     rule = args[1]
     anchor = args[0]
+    if not rule.endswith('\n'):
+        rule += '\n'
     append_rule(anchor=anchor, rule=rule)
 else:
     print("Usage: python %s <anchor_name> <anchor_rule>")
